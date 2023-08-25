@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Course Schema",
+
+  "type": "object",
+  "required": [ "CourseName", "Date", "Player", "Strokes", "TotalScore" ],
+  "additionalProperties": false,
+
+  "properties": {
+    "CourseName": {
+      "type": "string",
+      "description": "The name of the course."
+    },
+    "Date": {
+      "type": "string",
+      "description": "The day that the game was played on."
+    },
+    "Player": {
+      "type": "string",
+      "description": "The name of the player."
+    },
+    "Strokes": {
+      "type": "integer",
+      "description": "The total amount of strokes the player took."
+    },
+    "TotalScore": {
+      "type": "integer",
+      "description": "The difference of the total stokes and the course's par."
+    }
+  }
+}

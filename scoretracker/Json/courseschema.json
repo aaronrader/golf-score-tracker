@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Course Schema",
+
+  "type": "object",
+  "required": [ "Name", "NumHoles", "Section", "Par", "Distance", "Holes" ],
+  "additionalProperties": false,
+
+  "properties": {
+    "Name": {
+      "type": "string",
+      "description": "The name of the golf course."
+    },
+    "NumHoles": {
+      "type": "integer",
+      "description": "The number of holes on the course."
+    },
+    "Section": {
+      "type": "string",
+      "description": "The section of the course played on (Ex. back nine, full, etc.)"
+    },
+    "Par": {
+      "type": "integer",
+      "description": "The total par for the course."
+    },
+    "Distance": {
+      "type": "integer",
+      "description": "The total distance of the course."
+    },
+    "Holes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "A hole on the course.",
+        "required": [ "Par", "Distance" ],
+        "additionalProperties": false,
+
+        "properties": {
+          "Par": {
+            "type": "integer",
+            "description": "The par for the hole."
+          },
+          "Distance": {
+            "type": "integer",
+            "description": "The distance of the hole."
+          }
+        }
+      }
+    }
+  }
+}
