@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GolfAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class _1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,7 @@ namespace GolfAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Section = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,6 +31,7 @@ namespace GolfAPI.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
+                    HoleNum = table.Column<int>(type: "int", nullable: false),
                     Par = table.Column<int>(type: "int", nullable: false),
                     Distance = table.Column<int>(type: "int", nullable: false)
                 },
@@ -54,7 +54,7 @@ namespace GolfAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     Player = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Strokes = table.Column<int>(type: "int", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -68,10 +68,47 @@ namespace GolfAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ScoreHoles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ScoreId = table.Column<int>(type: "int", nullable: false),
+                    HoleId = table.Column<int>(type: "int", nullable: false),
+                    Strokes = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScoreHoles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ScoreHoles_Holes_HoleId",
+                        column: x => x.HoleId,
+                        principalTable: "Holes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_ScoreHoles_Scores_ScoreId",
+                        column: x => x.ScoreId,
+                        principalTable: "Scores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Holes_CourseId",
                 table: "Holes",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScoreHoles_HoleId",
+                table: "ScoreHoles",
+                column: "HoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScoreHoles_ScoreId",
+                table: "ScoreHoles",
+                column: "ScoreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Scores_CourseId",
@@ -82,6 +119,9 @@ namespace GolfAPI.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ScoreHoles");
+
             migrationBuilder.DropTable(
                 name: "Holes");
 

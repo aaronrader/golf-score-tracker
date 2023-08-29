@@ -35,10 +35,6 @@ namespace GolfAPI.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Section")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Courses");
@@ -56,6 +52,9 @@ namespace GolfAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Distance")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HoleNum")
                         .HasColumnType("int");
 
                     b.Property<int>("Par")
@@ -82,19 +81,46 @@ namespace GolfAPI.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Notes")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Player")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("Strokes")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
                     b.ToTable("Scores");
+                });
+
+            modelBuilder.Entity("GolfAPI.DAL.DomainClasses.ScoreHole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("HoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ScoreId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Strokes")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HoleId");
+
+                    b.HasIndex("ScoreId");
+
+                    b.ToTable("ScoreHoles");
                 });
 
             modelBuilder.Entity("GolfAPI.DAL.DomainClasses.Hole", b =>
@@ -117,6 +143,25 @@ namespace GolfAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("GolfAPI.DAL.DomainClasses.ScoreHole", b =>
+                {
+                    b.HasOne("GolfAPI.DAL.DomainClasses.Hole", "Hole")
+                        .WithMany()
+                        .HasForeignKey("HoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GolfAPI.DAL.DomainClasses.Score", "Score")
+                        .WithMany()
+                        .HasForeignKey("ScoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hole");
+
+                    b.Navigation("Score");
                 });
 #pragma warning restore 612, 618
         }

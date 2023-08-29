@@ -14,7 +14,7 @@ namespace GolfAPI.DAL.DAO
 
         public async Task<List<Hole>> GetHolesByCourse(int courseId)
         {
-            var holes = await db.Holes!.Where(hole => hole.Course!.Id == courseId).ToListAsync();
+            var holes = await db.Holes!.Where(hole => hole.CourseId == courseId).ToListAsync();
 
             holes.ForEach(hole =>
             {

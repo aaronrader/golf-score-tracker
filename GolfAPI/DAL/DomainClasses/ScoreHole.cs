@@ -3,25 +3,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GolfAPI.DAL.DomainClasses
 {
-    public class Hole
+    public class ScoreHole
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [ForeignKey("CourseId")]
-        public Course? Course { get; set; }
+        [ForeignKey("ScoreId")]
+        public Score? Score { get; set; }
 
         [Required]
-        public int CourseId { get; set; }
+        public int ScoreId { get; set; }
+
+        [ForeignKey("HoleId")]
+        public Hole? Hole { get; set; }
 
         [Required]
-        public int HoleNum { get; set; }
+        public int HoleId { get; set; }
 
         [Required]
-        public int Par { get; set; }
-
-        [Required]
-        public int Distance { get; set; }
+        public int Strokes { get; set; }
     }
 }

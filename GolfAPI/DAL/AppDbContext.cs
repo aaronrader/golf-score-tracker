@@ -9,5 +9,6 @@ namespace GolfAPI.DAL
         public virtual DbSet<Course>? Courses { get; set; }
         public virtual DbSet<Hole>? Holes { get; set; }
         public virtual DbSet<Score>? Scores { get; set; }
+        public virtual DbSet<ScoreHole>? ScoreHoles { get; set; }
     }
 }

@@ -19,8 +19,8 @@ namespace GolfAPI.DAL.DomainClasses
         [StringLength(100)]
         public string? Player { get; set; }
 
-        [Required]
-        public int Strokes { get; set; }
+        [StringLength(100)]
+        public string? Notes { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
