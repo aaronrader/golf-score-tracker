@@ -16,9 +16,19 @@ namespace GolfAPI.DAL.DAO
         {
             var scores = await db.Scores!.ToListAsync();
 
-            scores.ForEach(score =>
+            scores.ForEach( (score) =>
             {
                 score.Course = db.Courses!.Where(course => course!.Id == score.CourseId).FirstOrDefault();
+
+                //Get ScoreHole data
+                int totalScore = 0;
+                List<ScoreHole> scoreHoles = db.ScoreHoles!.Where(sc => sc.ScoreId == score.Id).ToList();
+                scoreHoles.ForEach(scoreHole =>
+                {
+                    scoreHole.Hole = db.Holes!.Where(hole => hole.Id == scoreHole.HoleId).FirstOrDefault();
+                    totalScore += (scoreHole.Strokes - scoreHole.Hole!.Par);
+                });
+                score.TotalScore = totalScore;
             });
 
             return scores;

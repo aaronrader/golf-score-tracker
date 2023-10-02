@@ -21,11 +21,16 @@
           </q-item-section>
           <q-item-section class="text-center text-bold"
           clickable
-          @click="sortScores('Player')"
+          @click="sortScores('Course')"
           > Course
           </q-item-section>
           <q-item-section class="text-center text-bold">
             Notes
+          </q-item-section>
+          <q-item-section class="text-center text-bold"
+          clickable
+          @click="sortScores('Score')"
+          > Score
           </q-item-section>
         </q-item>
         <q-item
@@ -45,6 +50,9 @@
           </q-item-section>
           <q-item-section class="text-center">
             {{ score.notes }}
+          </q-item-section>
+          <q-item-section class="text-center">
+            {{ formatNumber(score.totalScore) }}
           </q-item-section>
         </q-item>
       </q-list>
@@ -154,6 +162,7 @@ export default {
     let dateOrder = false;
     let playerOrder = false;
     let courseOrder = false;
+    let scoreOrder = false;
 
     onMounted(() => {
       loadScores();
@@ -191,9 +200,9 @@ export default {
           (hole) => {
             state.totalPar += hole.hole.par;
             state.totalStrokes += hole.strokes;
-            state.totalScore = state.totalStrokes - state.totalPar;
           }
         );
+        state.totalScore = state.selectedScore.totalScore;
 
         state.scoreSelected = true;
         state.status = "";
@@ -252,6 +261,23 @@ export default {
               }
               else {
                 return a.course.name - b.course.name;
+              }
+            }
+          );
+        break;
+        case "Score":
+          if (scoreOrder)
+          scoreOrder = false;
+          else
+          scoreOrder = true;
+
+          state.scores = state.scores.sort(
+            (a, b) => {
+              if (scoreOrder) {
+                return b.totalScore - a.totalScore;
+              }
+              else {
+                return a.totalScore - b.totalScore;
               }
             }
           );

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace GolfAPI.DAL.DomainClasses
 {
@@ -24,5 +25,8 @@ namespace GolfAPI.DAL.DomainClasses
 
         [Required]
         public DateTime Date { get; set; }
+
+        [NotMapped]
+        public int? TotalScore { get; set; }
     }
 }
